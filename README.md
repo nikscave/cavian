@@ -1,7 +1,7 @@
 # Cavian
 DIY Gate/Trigger sequencer using Teensy 4.1 and Novation Launchpad Mini
 
-Tutorial in the works - find me on [YouTube](https://www.youtube.com/channel/UCJ2dZmSUlZZw6ZqKoc_eHWQ/videos)
+Overview of basic features now on [YouTube](https://www.youtube.com/channel/UCJ2dZmSUlZZw6ZqKoc_eHWQ/videos)
 
 Steps:
 
