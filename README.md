@@ -10,6 +10,4 @@ Steps:
 5. Connect Novation Launchpad mini (tested on Mk1, Mk2 should be ok) to the USB Host headers. 
 3. Load Cavian HEX file using the [Teensy Loader](https://www.pjrc.com/teensy/loader.html)
 4. Outputs 4 to 11 are used for output triggers/gates. Teensy outputs around 3.5v, plenty for most modules. 
-5. On initial launch open serial monitor within Teensyduino. Note down your hardwares unique ID.
-6. Join me on [Patreon](http://patreon.com/nikscave) to help me develop this and upgrade for all working/beta features.
-7. Have fun!
+5. Have fun!
