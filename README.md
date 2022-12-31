@@ -11,3 +11,7 @@ Steps:
 3. Load Cavian HEX file using the [Teensy Loader](https://www.pjrc.com/teensy/loader.html)
 4. Outputs 4 to 11 are used for output triggers/gates. Teensy outputs around 3.5v, plenty for most modules. 
 5. Have fun!
+
+![Launchpad](https://nikscave.github.io/Launchpad_Cavian.JPG)
+![Teensy41](https://nikscave.github.io/Teensy41_Cavian.JPG)
+![Module](https://nikscave.github.io/Cavian_Module.JPG)
