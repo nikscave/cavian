@@ -1,5 +1,5 @@
 # Cavian
-DIY Gate/Trigger sequencer using Teensy 4.1 and Novation Launchpad Mini
+(Eurorack) DIY Gate/Trigger sequencer using Teensy 4.1 and Novation Launchpad Mini
 
 Overview of basic features now on [YouTube](https://www.youtube.com/channel/UCJ2dZmSUlZZw6ZqKoc_eHWQ/videos)
 
