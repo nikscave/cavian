@@ -1,7 +1,7 @@
 # Cavian
 (Eurorack) DIY Gate/Trigger sequencer using Teensy 4.1 and Novation Launchpad Mini
 
-Overview of basic features now on [YouTube](https://www.youtube.com/channel/UCJ2dZmSUlZZw6ZqKoc_eHWQ/videos)
+Overview of all features now on [YouTube](https://www.youtube.com/watch?v=7h795zaIrfs)
 
 Steps:
 
@@ -12,7 +12,7 @@ Steps:
 4. Outputs 4 to 11 are used for output triggers/gates. Teensy outputs around 3.5v, plenty for most modules. 
 5. Add Temp/Swing(Random probability) encoders as per schematic.
 6. Add reset/clock in/outs as per schematic (when you decide to add them)
-7. If you add a eurorack 12v to 5v regulator, please share any details and I'll include in here :-) I run my on USB only.
+7. If you add a eurorack 12v to 5v regulator, please share any details and I'll include in here :-) I run mine on USB only.
 
 
 ![Launchpad](https://nikscave.github.io/Launchpad_Cavian.JPG)
