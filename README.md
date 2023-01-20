@@ -13,6 +13,7 @@ Steps:
 5. Add Temp/Swing(Random probability) encoders as per schematic.
 6. Add reset/clock in/outs as per schematic (when you decide to add them)
 7. If you add a eurorack 12v to 5v regulator, please share any details and I'll include in here :-) I run mine on USB only.
+8. The svg template is how I remember which buttons do which. Post it notes or a sharpie on the LED's will work also :-)
 
 
 ![Launchpad](https://nikscave.github.io/Launchpad_Cavian.JPG)
