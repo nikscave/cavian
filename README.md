@@ -14,8 +14,9 @@ Steps:
 6. Add reset/clock in/outs as per schematic (when you decide to add them)
 7. If you add a eurorack 12v to 5v regulator, please share any details and I'll include in here :-) I run mine on USB only.
 8. The svg template is how I remember which buttons do which. Post it notes or a sharpie on the LED's will work also :-)
-.....
-BETA_A - bunch of features in progress.
+
+**BETA_A** - bunch of features in progress.
+
 __Probablity__ - In vertical mode, pressing the button to the **right of FILL** (directly above TRIG2) Enters Prob mode.
 Yellow denotes which group/preset/channel to assign. Unselecting will assign chosen step to ALL group/presets/channels depending on what you uncheck.
 Once you have chosen a step to assign probability to, adjusting the **SWING** encoder commits % prob to that step.
