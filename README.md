@@ -21,8 +21,8 @@ __Probablity__ - In vertical mode, pressing the button to the **right of FILL** 
 Yellow denotes which group/preset/channel to assign. Unselecting will assign chosen step to ALL group/presets/channels depending on what you uncheck.
 Once you have chosen a step to assign probability to, adjusting the **SWING** encoder commits % prob to that step.
 
-**Reset In** - had forgotten to implement this! Sending a 5v or less trigger into Reset In jack will mimic pressing the reset button.
-Amended the logic to reset to first PRESET in loop. active group will persist. 
+**Reset In** - had forgotten to implement this! Sending a 12v or less trigger into Reset In jack will mimic pressing the reset button.
+Amended the logic to reset to first PRESET in loop. active group will persist. The input protection is a la Hagiwo, and I've not fried any of my arduinos yet ;-)
 
 **Save Banks** - when turning cavian off in vertical mode, right hand side buttons denote active bank 1 through 8. Now there are 63 save points in each bank! Plenty! Top left 3 buttons are Load/Save/Delete. there is no undo, so press carefully.
 
