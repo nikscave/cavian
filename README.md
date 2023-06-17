@@ -15,7 +15,7 @@ Steps:
 7. If you add a eurorack 12v to 5v regulator, please share any details and I'll include in here :-) I run mine on USB only.
 8. The svg template is how I remember which buttons do which. Post it notes or a sharpie on the LED's will work also :-)
 
-**BETA_A** - bunch of features in progress.
+**BETA_B** - bunch of features in progress (18th June 2023)
 
 __Probablity__ - In vertical mode, pressing the button to the **right of FILL** (directly above TRIG2) Enters Prob mode.
 Yellow denotes which group/preset/channel to assign. Unselecting will assign chosen step to ALL group/presets/channels depending on what you uncheck.
@@ -25,6 +25,8 @@ Once you have chosen a step to assign probability to, adjusting the **SWING** en
 Amended the logic to reset to first PRESET in loop. active group will persist. The input protection is a la Hagiwo, and I've not fried any of my arduinos yet ;-)
 
 **Save Banks** - when turning cavian off in vertical mode, right hand side buttons denote active bank 1 through 8. Now there are 63 save points in each bank! Plenty! Top left 3 buttons are Load/Save/Delete. there is no undo, so press carefully.
+
+**Bug fixes** - first step no longer missing on group looping and resetting.
 
 **Feedback / suggestions appreciated**
 
