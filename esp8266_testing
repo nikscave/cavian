@@ -1,10 +1,9 @@
-const int rows = 8;
-const int cols = 8;
-const int depth1 = 8;
-const int depth2 = 8;
-byte receivedArray[rows][cols][depth1][depth2];
+const int rows = 8; // 3rd dimension
+const int cols = 8; // 4th dimension
 
-char inputBuffer[4096]; // Large enough buffer for the incoming data
+byte receivedArray[rows][cols]; // 2D array to reconstruct from received data
+
+char inputBuffer[256]; // Buffer for incoming data (should match the size of the transmitted data)
 int bufferIndex = 0;
 
 void setup() {
@@ -20,7 +19,7 @@ void loop() {
       bufferIndex = 0; // Start a new message
     } else if (receivedChar == '>') {
       inputBuffer[bufferIndex] = '\0'; // Null-terminate the string
-      parseArray(inputBuffer, receivedArray, rows, cols, depth1, depth2);
+      parseArray(inputBuffer, receivedArray, rows, cols);
     } else {
       if (bufferIndex < sizeof(inputBuffer) - 1) {
         inputBuffer[bufferIndex++] = receivedChar;
@@ -29,32 +28,29 @@ void loop() {
   }
 }
 
-void parseArray(char *data, byte arr[rows][cols][depth1][depth2], int r, int c, int d1, int d2) {
+void parseArray(char *data, byte arr[rows][cols], int r, int c) {
   int index = 0;
-  char *token = strtok(data, ",");
-  while (token != NULL && index < r * c * d1 * d2) {
-    int value = atoi(token);
-    int i = index / (c * d1 * d2);
-    int j = (index / (d1 * d2)) % c;
-    int k = (index / d2) % d1;
-    int l = index % d2;
-    arr[i][j][k][l] = value;
-    index++;
-    token = strtok(NULL, ",");
+  char *token = strtok(data, ","); // Split the data using ',' as a delimiter
+
+  while (token != NULL && index < (r * c)) {
+    int value = atoi(token); // Convert the token to an integer
+
+    // Calculate indices for the 2D array
+    int i = index / c; // Row index
+    int j = index % c; // Column index
+
+    arr[i][j] = value; // Assign the value to the array
+    index++;           // Move to the next element
+
+    token = strtok(NULL, ","); // Get the next token
   }
 
-  // Debug: Print received array
-  Serial.println("Received Array:");
+  // Debugging: Print the reconstructed array
+  Serial.println("Reconstructed Array:");
   for (int i = 0; i < r; i++) {
     for (int j = 0; j < c; j++) {
-      for (int k = 0; k < d1; k++) {
-        for (int l = 0; l < d2; l++) {
-          Serial.print(arr[i][j][k][l]);
-          Serial.print('\t');
-        }
-        Serial.println();
-      }
-      Serial.println();
+      Serial.print(arr[i][j]);
+      Serial.print('\t');
     }
     Serial.println();
   }
