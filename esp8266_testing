@@ -59,3 +59,143 @@ void parseArray(char *data, byte arr[rows][cols][depth1][depth2], int r, int c, 
     Serial.println();
   }
 }
+
+
+
+
+
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+ESP8266WebServer server(80);
+
+// Access Point credentials
+const char* ssid = "Cavian_Control";
+
+// Button states for the 8x8 matrix of square buttons (last row and column are circles)
+// 8x8 button state array (0 = off, 1 = on) - Controls square buttons only
+int buttonStates[8][8] = {{1,0,0,0,1,0,0,0},
+                          {0,0,0,0,1,0,0,0},
+                          {0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0},
+                          {0,0,0,0,0,0,0,0},
+                          {1,0,0,0,1,0,0,0}};
+// HTML template for the grid
+String generateHTML() {
+  String html = "<!DOCTYPE html><html>";
+  html += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+  html += "<title>Cavian Controller</title>";
+  html += "<style>";
+  //html += "body { font-family: Arial; text-align: center; margin: 0; padding: 0; }";
+  html += "body { font-family: 'Roboto', sans-serif; text-align: center; margin: 0; padding: 0; background-color: #f7f9fc; }";
+  html += ".grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; margin: 10px auto; max-width: 420px; }";
+  
+  // Styling for buttons
+  html += ".button { padding: 5px; font-size: 5px; background-color: black; color: white; border: none; cursor: pointer; }";
+  html += ".button-on { background-color: green; }";  // Green class for on state
+  html += ".circle { border-radius: 50%; width: 35px; height: 35px; }";  // Circle button styling
+  html += ".square { width: 35px; height: 35px; }";  // Square button styling
+  
+  html += "</style>";
+  html += "</head>";
+  html += "<body>";
+  html += "<h1>Matrix Controller</h1>";
+  html += "<div class=\"grid\">";
+  
+  // Generate grid buttons and reflect state from the array
+  for (int row = 0; row < 9; row++) {
+    for (int col = 0; col < 9; col++) {
+      String buttonClass = "button ";
+      String buttonId = "R" + String(row + 1) + "C" + String(col + 1);
+
+      if (row == 0 || col == 8) {
+        buttonClass += "circle";  // First row and last column are circles
+        html += "<button class=\"" + buttonClass + "\" id=\"" + buttonId + "\" onclick=\"toggleButton(this, '" + buttonId + "')\">";
+      } else {
+        buttonClass += "square";  // Square buttons controlled by buttonStates
+        // Reflect the button's current state based on buttonStates
+        if (buttonStates[row][col] == 1) {
+          buttonClass += " button-on";  // If it's on, add the 'on' class (green color)
+        }
+        html += "<button class=\"" + buttonClass + "\" id=\"" + buttonId + "\" onclick=\"toggleButton(this, '" + buttonId + "')\">";
+      }
+
+      html += buttonId;
+      html += "</button>";
+    }
+  }
+  
+  html += "</div>";
+  html += "<script>";
+  html += "function toggleButton(button, id) {";
+  html += "  if (button.classList.contains('button-on')) {";
+  html += "    button.classList.remove('button-on');";  // Remove green if it's on
+  html += "  } else {";
+  html += "    button.classList.add('button-on');";      // Add green if it's off
+  html += "  }";
+  html += "  fetch('/button/' + id).then(response => {";
+  html += "    if (response.ok) { console.log('Button ' + id + ' toggled'); }";
+  html += "    else { console.error('Error:', response.status); }";
+  html += "  }).catch(err => console.error('Fetch error:', err));";
+  html += "}";
+  html += "</script>";
+  html += "</body></html>";
+  
+  return html;
+}
+
+
+void handleRoot() {
+  server.send(200, "text/html", generateHTML());
+}
+void handleButtonPress() {
+  String uri = server.uri();
+  if (uri.startsWith("/button/")) {
+    String buttonId = uri.substring(8); // Extract button ID
+    int row = buttonId.charAt(1) - '1';  // Row index (1-based to 0-based)
+    int col = buttonId.charAt(3) - '1';  // Column index (1-based to 0-based)
+
+    // Toggle the state
+    buttonStates[row][col] = 1 - buttonStates[row][col];  // Toggle between 0 and 1
+
+    // Debugging output
+    Serial.println("Button pressed: " + buttonId + " | State: " + String(buttonStates[row][col]));
+
+    server.send(200, "text/plain", "Button " + buttonId + " state updated");
+  } else {
+    server.send(404, "text/plain", "Not Found");
+  }
+}
+
+
+
+void setup() {
+  Serial.begin(115200);
+
+  Serial.println();
+  Serial.print("Your SSID password is this device's MAC address: ");
+  String macAddress = WiFi.macAddress();
+  macAddress.replace(":", "");  // Removes all colons
+
+  Serial.println(macAddress);  // Prints the MAC address without colons
+
+  // Start WiFi Access Point
+  WiFi.softAP(ssid, macAddress);
+  Serial.println("Access Point Started");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.softAPIP());
+
+  // Define server routes
+  server.on("/", handleRoot);
+  server.onNotFound(handleButtonPress);
+
+  // Start server
+  server.begin();
+  Serial.println("Web server started");
+}
+
+void loop() {
+  server.handleClient();
+}
