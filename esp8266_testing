@@ -1,0 +1,61 @@
+const int rows = 8;
+const int cols = 8;
+const int depth1 = 8;
+const int depth2 = 8;
+byte receivedArray[rows][cols][depth1][depth2];
+
+char inputBuffer[4096]; // Large enough buffer for the incoming data
+int bufferIndex = 0;
+
+void setup() {
+  Serial.begin(9600);  // USB debugging
+  Serial1.begin(9600); // UART communication
+}
+
+void loop() {
+  while (Serial1.available() > 0) {
+    char receivedChar = Serial1.read();
+
+    if (receivedChar == '<') {
+      bufferIndex = 0; // Start a new message
+    } else if (receivedChar == '>') {
+      inputBuffer[bufferIndex] = '\0'; // Null-terminate the string
+      parseArray(inputBuffer, receivedArray, rows, cols, depth1, depth2);
+    } else {
+      if (bufferIndex < sizeof(inputBuffer) - 1) {
+        inputBuffer[bufferIndex++] = receivedChar;
+      }
+    }
+  }
+}
+
+void parseArray(char *data, byte arr[rows][cols][depth1][depth2], int r, int c, int d1, int d2) {
+  int index = 0;
+  char *token = strtok(data, ",");
+  while (token != NULL && index < r * c * d1 * d2) {
+    int value = atoi(token);
+    int i = index / (c * d1 * d2);
+    int j = (index / (d1 * d2)) % c;
+    int k = (index / d2) % d1;
+    int l = index % d2;
+    arr[i][j][k][l] = value;
+    index++;
+    token = strtok(NULL, ",");
+  }
+
+  // Debug: Print received array
+  Serial.println("Received Array:");
+  for (int i = 0; i < r; i++) {
+    for (int j = 0; j < c; j++) {
+      for (int k = 0; k < d1; k++) {
+        for (int l = 0; l < d2; l++) {
+          Serial.print(arr[i][j][k][l]);
+          Serial.print('\t');
+        }
+        Serial.println();
+      }
+      Serial.println();
+    }
+    Serial.println();
+  }
+}
